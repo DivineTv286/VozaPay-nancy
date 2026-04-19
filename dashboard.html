@@ -147,7 +147,7 @@
         .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
         .nav-item span { font-size: 10px; font-weight: 600; }
         .nav-item.active { color: var(--voza-gold); }
-            .swal2-popup {
+                .swal2-popup {
         background: #150b2e !important;
         border: 1px solid #dbb445 !important;
         border-radius: 25px !important;
@@ -160,6 +160,7 @@
         font-weight: 800 !important;
         border-radius: 12px !important;
         padding: 12px 30px !important;
+    }
     </style>
 </head>
 <body>
@@ -236,36 +237,27 @@
 
 <script>
     function updateDashboard() {
-        // 1. Greeting Logic
         const greetingElement = document.getElementById('time-greeting');
         const hour = new Date().getHours();
         let greeting = (hour < 12) ? "Good Morning" : (hour < 17) ? "Good Afternoon" : "Good Evening";
         if (greetingElement) greetingElement.textContent = greeting + "!";
 
-        // 2. PULL USERNAME (The "Sharp" Fix)
         const urlParams = new URLSearchParams(window.location.search);
         const nameFromUrl = urlParams.get('username');
-        
-        // We check BOTH potential keys just in case
         const savedUsername = localStorage.getItem('voza_username') || localStorage.getItem('glamour_username');
         
         const displayElement = document.getElementById('display-username');
-        
         if (displayElement) {
-            // Logic: Use URL name first, if empty use Saved name, if empty use Default
-            const finalName = nameFromUrl || savedUsername || "Voza Partner";
-            displayElement.textContent = finalName;
+            displayElement.textContent = nameFromUrl || savedUsername || "Voza Partner";
         }
     }
 
     function initEarningsCard() {
-        // Load Progress Bar
         setTimeout(() => {
             const bar = document.getElementById('progress-bar');
             if (bar) bar.style.width = '85%';
         }, 500);
 
-        // Eye Toggle for Privacy
         const eyeBtn = document.getElementById('toggle-visibility');
         const mainAmount = document.getElementById('main-amount');
         const altAmount = document.getElementById('alt-amount');
@@ -278,49 +270,47 @@
                 if (!isHidden) {
                     mainAmount.textContent = "₦ ••••••••";
                     altAmount.textContent = "$ ••.••";
-                    // Using standard FontAwesome 6 classes (matches your previous dashboard)
-                    eyeBtn.classList.remove('fa-eye');
-                    eyeBtn.classList.add('fa-eye-slash');
+                    eyeBtn.classList.replace('fa-eye', 'fa-eye-slash');
                 } else {
                     mainAmount.textContent = realMain;
                     altAmount.textContent = realAlt;
-                    eyeBtn.classList.remove('fa-eye-slash');
-                    eyeBtn.classList.add('fa-eye');
+                    eyeBtn.classList.replace('fa-eye-slash', 'fa-eye');
                 }
                 isHidden = !isHidden;
             });
         }
     }
 
+    // THE LOCK LOGIC
+    function setupActivityLock() {
+        const activities = document.querySelectorAll('.grid-item');
+        activities.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                Swal.fire({
+                    title: 'Membership Required',
+                    text: 'Kindly activate your membership plan now to access this feature!',
+                    icon: 'lock',
+                    iconColor: '#dbb445',
+                    confirmButtonText: 'ACTIVATE NOW',
+                    showCancelButton: true,
+                    cancelButtonText: 'Later',
+                    cancelButtonColor: 'transparent',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'payment.html'; 
+                    }
+                });
+            });
+        });
+    }
+
+    // THIS IS THE MOST IMPORTANT PART: Triggering the functions
     window.onload = function() {
         updateDashboard();
         initEarningsCard();
+        setupActivityLock(); // This must be called here to work!
     };
-    function setupActivityLock() {
-    // Selects all the earning icons in your grid
-    const activities = document.querySelectorAll('.grid-item');
-    
-    activities.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault(); // Stop the link from opening
-            
-            Swal.fire({
-                title: 'Membership Required',
-                text: 'Kindly activate your membership plan now to access this feature!',
-                icon: 'lock',
-                iconColor: '#dbb445',
-                confirmButtonText: 'ACTIVATE NOW',
-                showCancelButton: true,
-                cancelButtonText: 'Later',
-                cancelButtonColor: 'transparent',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = 'payment.html'; // Redirect to your payment page
-                }
-            });
-        });
-    });
-}
 </script>
 </body>
 </html>
