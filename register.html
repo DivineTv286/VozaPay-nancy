@@ -151,7 +151,7 @@
                     <label>Username</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-at"></i>
-                        <input type="text" placeholder="johndoe24" required>
+                        <input type="text" id="usernameInput" placeholder="johndoe24" required>
                     </div>
                 </div>
 
@@ -200,16 +200,22 @@
             </p>
         </div>
     </div>
-    <script> document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            
-            const btn = document.querySelector('.btn-register');
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Loading...';
-            
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1500);
-        });
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault(); 
+    
+    const username = document.getElementById('usernameInput').value;
+
+    
+    localStorage.setItem('voza_username', username);
+
+    const btn = document.querySelector('.btn-register');
+    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+    
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 1000);
+});
     </script>
 </body>
 </html>
