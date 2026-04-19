@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<title>VozaPay || African's No1 Earning and time rewarding System ,available to all...</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(180deg, #0f0524 0%, #2b0a4d 100%);
+  background-attachment: fixed;
+  color: white;
+  text-align: center;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(15, 5, 36, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo img { width: 32px; height: 32px; object-fit: contain; }
+.logo span { font-size: 18px; font-weight: bold; }
+
+.hamburger {
+  width: 28px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.hamburger span {
+  height: 3px;
+  width: 100%;
+  background: white;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+
+.dropdown {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: #0b0f2a;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  z-index: 999;
+}
+
+.dropdown.show { max-height: 500px; }
+.dropdown a {
+  padding: 18px 20px;
+  text-decoration: none;
+  color: #ddd;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 15px;
+}
+.hero { padding: 100px 20px 40px; }
+.hero h1 { font-size: 26px; font-weight: 800; margin-bottom: 15px; line-height: 1.2; }
+.hero p { font-size: 14px; color: #a1a1aa; margin-bottom: 25px; line-height: 1.5; }
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 35px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.primary, .secondary {
+  text-decoration: none;
+  padding: 16px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: 0.3s;
+}
+.primary { background: #5e4ae3; color: white; }
+.secondary { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); color: white; }
+
+.services { padding: 20px; display: flex; flex-direction: column; gap: 50px; }
+.service-block { text-align: left; max-width: 500px; margin: 0 auto; }
+.service-block img { width: 100%; border-radius: 25px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+.service-label {
+  display: inline-block;
+  background: #1a1635;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #b49eff;
+  margin-bottom: 15px;
+  border: 1px solid rgba(180, 158, 255, 0.2);
+  text-transform: uppercase;
+}
+
+.service-text { font-size: 14px; line-height: 1.7; color: #d1d5db; padding-bottom: 10px; }
+.about-content { 
+  padding: 40px 20px; 
+  text-align: left; 
+  max-width: 500px; 
+  margin: 0 auto; 
+}
+.about-content h3 { font-size: 18px; margin: 25px 0 10px; color: #ddd; }
+.about-content p { font-size: 14px; color: #a1a1aa; margin-bottom: 20px; line-height: 1.8; }
+
+
+.pricing-section { padding: 60px 20px; text-align: center; }
+.pricing-section h4 { color: #8b5cf6; font-size: 13px; margin-bottom: 10px; }
+
+
+.toggle-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 30px; font-size: 14px; }
+.switch { position: relative; display: inline-block; width: 44px; height: 22px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #333; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+  background-color: white; transition: .4s; border-radius: 50%;
+}
+input:checked + .slider { background-color: #5e4ae3; }
+input:checked + .slider:before { transform: translateX(22px); }
+
+.membership-card {
+  background: #150b2e; 
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 25px; 
+  padding: 30px 20px; 
+  max-width: 360px; 
+  margin: 0 auto;
+  text-align: left;
+}
+.membership-card h3 { font-size: 18px; margin-bottom: 15px; }
+.membership-card .price { font-size: 28px; font-weight: 800; }
+.membership-card .price span { font-size: 14px; color: #888; font-weight: 400; }
+.membership-card p { font-size: 13px; color: #a1a1aa; margin: 15px 0 25px; }
+
+.btn-activate {
+  display: block; width: 100%; padding: 15px; background: #5e4ae3;
+  color: white; text-align: center; border-radius: 50px; text-decoration: none;
+  font-weight: bold; font-size: 15px;
+}
+.faq-section {
+  padding: 60px 20px;
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.faq-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.faq-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: #1a1635;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b5cf6;
+  font-size: 16px;
+}
+
+.faq-content h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #eee;
+  font-weight: 600;
+}
+
+.faq-content p {
+  font-size: 13px;
+  color: #a1a1aa;
+  line-height: 1.5;
+}
+.info { padding: 60px 20px 40px; }
+.info h4 { color: #8b5cf6; margin-bottom: 10px; font-size: 14px; }
+.info h2 { font-size: 22px; margin-bottom: 12px; font-weight: 800; }
+.info p { font-size: 14px; color: #a1a1aa; line-height: 1.6; }
+
+.top-quote { font-size: 13px; color: #a1a1aa; padding: 20px; line-height: 1.4; max-width: 350px; margin: 0 auto; }
+.promo-section { padding: 10px 20px; }
+.promo-section img { width: 100%; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+.icon-block {
+  background: rgba(20, 10, 40, 0.6);
+  margin: 15px 20px;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: left;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.terminal-icon {
+  width: 45px; height: 35px;
+  background: rgba(139, 92, 246, 0.2);
+  border: 1.5px solid #8b5cf6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.icon-symbol { color: #8b5cf6; font-weight: bold; font-family: 'Courier New', monospace; font-size: 18px; }
+
+
+.who-are-we { text-align: left; padding: 40px 20px 100px; max-width: 500px; margin: 0 auto; }
+.footer-tag { color: #6366f1; font-size: 12px; margin-bottom: 8px; }
+.footer-title { font-size: 24px; font-weight: 800; }
+.testimonials {
+  padding: 80px 20px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.testimonial-stage {
+  max-width: 450px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 280px; 
+}
+
+.testimonial-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 24px;
+  padding: 35px 25px;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  visibility: hidden;
+}
+
+.testimonial-card.active {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.testimonial-text {
+  font-size: 15px;
+  color: #e2e8f0;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 20px;
+}
+
+.user-profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px; 
+  object-fit: cover;
+  border: 2px solid #5e4ae3;
+}
+
+.user-info h4 { font-size: 16px; color: #fff; margin-bottom: 2px; }
+.user-info p { font-size: 13px; color: #8b5cf6; font-weight: 500; }
+.dots-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.dot.active {
+  background: #8b5cf6;
+  width: 24px;
+  border-radius: 10px;
+}
+
+.footer {
+  padding: 60px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.footer-links a {
+  color: #a1a1aa;
+  text-decoration: none;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+    <span>VozaPay</span>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+<div class="dropdown" id="menuBox">
+  <a href="#">Home</a>
+  <a href="#">About</a>
+  <a href="#">Features</a>
+  <a href="#">Contact Us</a>
+</div>
+<section class="hero">
+  <h1>Unlock VozaPay’s Full Potential <br> with Perfect Features</h1>
+  <p>Create, earn, and refine VozaPay prompts effortlessly — faster, smarter, and better earnings every time</p>
+  <div class="buttons">
+    <a href="register.html" class="primary">Get Started →</a>
+    <a href="#about-content" class="secondary">Explore</a>
+  </div>
+  <div class="hero-image">
+    <img src="new.jpg" style="width:100%; border-radius:20px; max-width:500px;">
+  </div>
+</section>
+
+<section class="services">
+  <div class="service-block">
+    <img src="video.jpg" alt="Video">
+    <div class="service-label">VOZAPAY VIDEO ENGAGEMENT</div>
+    <p class="service-text">Watch, Engage & Earn Video Engagement on VozaPay connects users with trending online video content.</p>
+  </div>
+  <div class="service-block">
+    <img src="live.jpg" alt="Live">
+    <div class="service-label">VOZAPAY LIVE VIDEO ENGAGEMENT</div>
+    <p class="service-text">Show Up. Engage. Earn. On VozaPay everyone can earn—the host and even active viewers.</p>
+  </div>
+  <div class="service-block">
+    <img src="files.jpg" alt="Download">
+    <div class="service-label">VOZAPAY FILE DOWNLOAD</div>
+    <p class="service-text">Users can earn money by downloading sponsored and promotional content.</p>
+  </div>
+</section>
+
+<section class="info">
+  <h4>Enhanced Financial Control</h4>
+  <h2>Empower Teams with Financial-Driven Precision</h2>
+  <p>An intuitive, streamlined way to create, refine, earn — built to fit your process perfectly.</p>
+</section>
+
+<p class="top-quote">VozaPay Adapts To Your Workflow, Turning Ideas Into Income.</p>
+
+<section class="promo-section">
+  <img src="post.jpg" alt="Post and Earn" style="max-width:500px; display:block; margin:0 auto;">
+</section>
+
+<section class="services">
+  <div class="icon-block">
+    <div class="terminal-icon"><span class="icon-symbol">>_</span></div>
+    <div class="service-label" style="background:transparent; border:none; padding:0; color:white;">AUDIO ENGAGEMENT</div>
+    <p class="service-text">Collaborate directly with artists, record labels, and music distributors.</p>
+  </div>
+  <div class="icon-block">
+    <div class="terminal-icon"><span class="icon-symbol">>_</span></div>
+    <div class="service-label" style="background:transparent; border:none; padding:0; color:white;">VOZAPAY LIVE VIDEO ENGAGEMENT</div>
+    <p class="service-text">On many platforms, only the host or creator earns, but on VozaPay everyone can earn, the host, participants, and even active viewers. By joining live video sessions hosted by brands, creators, and promotional partners, you can earn rewards directly from your engagement and participation.</p>
+  </div>
+  <div class="icon-block">
+    <div class="terminal-icon"><span class="icon-symbol">>_</span></div>
+    <div class="service-label" style="background:transparent; border:none; padding:0; color:white;">VOZAPAY VIDEO ENGAGEMENT</div>
+    <p class="service-text">Watch, Engage & Earn Video Engagement on VozaPay connects users with trending online video content from brands, creators, and digital platforms.</p>
+  </div>
+</section>
+
+<section class="who-are-we">
+  <h4 class="footer-tag">About VozaPay</h4>
+  <h2 class="footer-title">Who Are We</h2>
+  </section>
+<section class="about-content">
+  <p>VozaPay Is A Digital Platform Designed To Transform Everyday Online Activity Into Real Income. It Was Created With A Clear Mission: To Help Africans, Digital Creators, And Online Communities Earn From Their Engagement On The Internet.</p>
+  
+  <h3>Intelligent Partnership</h3>
+  <p>Through Partnerships With Content Creators, Brands, Entertainment Platforms, And Digital Communities, VozaPay Builds An Ecosystem Where Users Are Not Just Passive Consumers.</p>
+  
+  <p>Instead Of Only Watching Content Or Interacting Online, Users Become Active Participants Who Can Earn Rewards From Their Engagement.</p>
+  
+  <p>At Its Core, VozaPay Believes That The Time, Creativity, And Attention People Spend Online Should Have Real Value.</p>
+
+  <img src="new.jpg" alt="Who are we" style="width:100%; border-radius:20px; margin-top:20px;">
+</section>
+
+<section class="pricing-section">
+  <h4>Smarter Plans for Better Results</h4>
+  <h2 style="font-size: 24px; margin-bottom: 25px;">Choose a Plan that Fits You</h2>
+
+  <div class="toggle-wrapper">
+    <span>Billed Once</span>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+    <span>Billed Annually</span>
+  </div>
+
+  <div class="membership-card">
+    <h3>VozaPay Membership</h3>
+    <div class="price">₦12,650 <span>activation</span></div>
+    <p>One-time activation with <strong>100% cashback</strong>. Start earning from digital engagement and partnerships.</p>
+    <a href="#" class="btn-activate">Activate Membership</a>
+  </div>
+</section>
+<section class="faq-section">
+  <div class="faq-header">
+    <h2 style="font-size: 24px; margin-bottom: 10px;">Frequently Asked Questions</h2>
+    <p style="font-size: 14px; color: #a1a1aa;">Everything you need to know about VozaPay membership, earnings, and how the platform works.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-icon"><i class="fa-solid fa-credit-card"></i></div>
+    <div class="faq-content">
+      <h3>How much does it cost to join VozaPay?</h3>
+      <p>Joining VozaPay requires a one-time activation fee of ₦12,650. Members also receive a 100% cashback of ₦12,650 within the platform, allowing them to start participating in earning activities immediately.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-icon"><i class="fa-solid fa-coins"></i></div>
+    <div class="faq-content">
+      <h3>How do I earn money on VozaPay?</h3>
+      <p>Members earn through digital engagement activities such as watching videos, listening to audio content, downloading files, completing promotional tasks, and performing social media engagements.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-icon"><i class="fa-solid fa-handshake"></i></div>
+    <div class="faq-content">
+      <h3>Can I earn by referring others?</h3>
+      <p>Yes. VozaPay offers partner bonuses when you invite new members to the platform. You can earn a partner bonus, reconnect rewards, and additional earnings from partner chain levels.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+    <div class="faq-content">
+      <h3>What activities can I complete daily?</h3>
+      <p>Daily activities include video engagement, audio listening, file downloads, promo campaign tasks, and social media tasks. These activities allow members to earn consistently while engaging with digital content.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-icon"><i class="fa-solid fa-globe"></i></div>
+    <div class="faq-content">
+      <h3>Who can join VozaPay?</h3>
+      <p>VozaPay is designed for Africans, creators, and online users who want to turn their digital engagement into real earning opportunities.</p>
+    </div>
+  </div>
+</section>
+<section class="testimonials">
+  <h4 style="color: #8b5cf6; font-size: 13px; margin-bottom: 10px;">Community Success</h4>
+  <h2 style="font-size: 26px; margin-bottom: 40px;">What Our Members Say</h2>
+
+  <div class="testimonial-stage" id="testimonial-stage">
+    </div>
+
+  <div class="dots-container" id="dots-container">
+    </div>
+</section>
+
+
+<footer class="footer">
+  <div class="logo" style="justify-content: center; margin-bottom: 15px;">
+    <img src="logo.png" alt="Logo">
+    <span></span>
+  </div>
+  <p style="font-size: 13px; color: #888;">The Premier Tool For Prompt Engineering, Optimization, And Wealth Generation.</p>
+
+  <div class="footer-socials">
+    <a href="https://t.me/Coachnancy5" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+    <a href="https://t.me/Coachnancy5" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+    <a href="https://t.me/Coachnancy5" class="social-icon"><i class="fa-brands fa-linkedin"></i></a>
+    <a href="https://t.me/Coachnancy5" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
+  </div>
+
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">About Us</a>
+    <a href="register.html">Signup</a>
+    <a href="#">Testimonial</a>
+  </div>
+</footer>
+<script>
+function toggleMenu() {
+  document.getElementById("menuBox").classList.toggle("show");
+  document.getElementById("hamburger").classList.toggle("active");
+}
+const testimonials = [
+  {
+    text: "The system is amazing. I invited a few friends and earned partner bonuses while still completing my daily tasks.",
+    name: "Tunde Adeyemi",
+    role: "A Tutor",
+    img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  },
+  {
+    text: "VozaPay has completely changed my perspective on online engagement. The payouts are consistent and the community is supportive.",
+    name: "Emeka Obi",
+    role: "Full-Stack Developer",
+    img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  },
+  {
+    text: "I love the Audio Engagement feature! It's so easy to earn while discovering new music from local artists.",
+    name: "Blessing Okon",
+    role: "Digital Creator",
+    img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  },
+  {
+    text: "Best platform in Nigeria right now for passive income. The 100% cashback on activation is a real deal.",
+    name: "Samuel Etim",
+    role: "Student",
+    img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  },
+  {
+    text: "Highly intuitive interface. I managed to set up my profile and start earning within 10 minutes of joining.",
+    name: "Chioma Adeleke",
+    role: "Social Media Manager",
+    img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  },
+  {
+    text: "The customer support is top-notch. Any issues I had with my first withdrawal were resolved in under an hour.",
+    name: "Ibrahim Musa",
+    role: "A student of UNILAG",
+    img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  }
+];
+
+let currentIndex = 0;
+const stage = document.getElementById('testimonial-stage');
+const dotsContainer = document.getElementById('dots-container');
+
+function initTestimonials() {
+  testimonials.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = `testimonial-card ${i === 0 ? 'active' : ''}`;
+    card.innerHTML = `
+      <p class="testimonial-text">"${t.text}"</p>
+      <div class="user-profile">
+        <img src="${t.img}" alt="${t.name}">
+        <div class="user-info">
+          <h4>${t.name}</h4>
+          <p>${t.role}</p>
+        </div>
+      </div>
+    `;
+    stage.appendChild(card);
+    const dot = document.createElement('div');
+    dot.className = `dot ${i === 0 ? 'active' : ''}`;
+    dot.onclick = () => showTestimonial(i);
+    dotsContainer.appendChild(dot);
+  });
+}
+
+function showTestimonial(index) {
+  currentIndex = index;
+  const cards = document.querySelectorAll('.testimonial-card');
+  const dots = document.querySelectorAll('.dot');
+
+  cards.forEach((card, i) => {
+    card.classList.toggle('active', i === index);
+  });
+
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+setInterval(() => {
+  currentIndex = (currentIndex + 1) % testimonials.length;
+  showTestimonial(currentIndex);
+}, 5000);
+
+initTestimonials();
+</script>
+</body>
+</html>
