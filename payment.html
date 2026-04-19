@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment | VozaPay</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --voza-gold: #dbb445;
+            --voza-dark: #0f0524;
+            --voza-card: #150b2e;
+            --voza-glass: rgba(255, 255, 255, 0.05);
+            --voza-red: #ff4757;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--voza-dark);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .payment-box {
+            width: 100%;
+            max-width: 450px;
+            background: var(--voza-card);
+            border: 1px solid var(--voza-glass);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Timer Style */
+        .timer-box {
+            background: rgba(225, 29, 72, 0.1);
+            color: #e11d48;
+            padding: 10px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(225, 29, 72, 0.2);
+        }
+
+        .header h1 { font-size: 20px; font-weight: 800; margin-bottom: 5px; }
+        .price-tag { font-size: 28px; font-weight: 900; color: var(--voza-gold); }
+        .old-price { text-decoration: line-through; color: #71717a; font-size: 16px; margin-left: 10px; }
+        .bank-card {
+            background: var(--voza-glass);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .detail-row:last-child { margin-bottom: 0; }
+        .label { font-size: 11px; color: #a1a1aa; text-transform: uppercase; letter-spacing: 1px; }
+        .value { font-size: 15px; font-weight: 700; color: #fff; }
+        .copy-btn {
+            background: none; border: none; color: var(--voza-gold);
+            cursor: pointer; font-size: 16px; padding: 5px;
+        }
+        .instructions {
+            font-size: 12px;
+            color: #fff;
+            line-height: 1.6;
+            background: rgba(219, 180, 69, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--voza-gold);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #dbb445 0%, #b88a14 100%);
+            color: #000;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 15px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .swal-warning-popup {
+            background: #150b2e !important;
+            border: 2px solid var(--voza-red) !important;
+            border-radius: 25px !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-box">
+    <div class="timer-box">
+        <i class="fa-solid fa-clock"></i> Offer expires in: <span id="timer">10:00</span>
+    </div>
+
+    <div class="header">
+        <h1>Complete Activation</h1>
+        <div class="price-tag">
+            ₦12,750 <span class="old-price">₦30,000</span>
+        </div>
+        <p style="font-size: 12px; color: #a1a1aa;">(₦12,700 Activation + ₦50 Network Fee)</p>
+    </div>
+
+    <div class="bank-card">
+        <div class="detail-row">
+            <div>
+                <span class="label">Bank Name</span>
+                <div class="value" id="bank-name">OPAY (PAYCOM)</div> 
+            </div>
+            <button class="copy-btn" onclick="copyText('bank-name')"><i class="fa-regular fa-copy"></i></button>
+        </div>
+        
+        <div class="detail-row">
+            <div>
+                <span class="label">Account Number</span>
+                <div class="value" id="acc-num">7073734725</div> 
+            </div>
+            <button class="copy-btn" onclick="copyText('acc-num')"><i class="fa-regular fa-copy"></i></button>
+        </div>
+
+        <div class="detail-row">
+            <div>
+                <span class="label">Account Name</span>
+                <div class="value" id="acc-name">REJOICE A. CHINAZA</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('acc-name')"><i class="fa-regular fa-copy"></i></button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <strong>⚠️ CRITICAL INSTRUCTION:</strong><br>
+        1. Copy the account details above.<br>
+        2. Transfer exactly <b>₦12,750</b>.<br>
+        3. <b>IMPORTANT:</b> Use your <b>USERNAME</b> as the "Payment Description/Narration".<br>
+        4. Screenshot your receipt and submit below.
+    </div>
+
+    <button class="btn-submit" onclick="submitToTelegram()">
+        <i class="fa-brands fa-telegram"></i> Submit Proof of Payment
+    </button>
+</div>
+
+<script>
+    window.onload = function() {
+        Swal.fire({
+            title: 'PAYMENT NOTICE!',
+            text: 'Please DO NOT use OPAY for this transaction to avoid verification delays. Use PalmPay, Moniepoint, or any other commercial bank.',
+            icon: 'warning',
+            iconColor: '#ff4757',
+            confirmButtonText: 'I UNDERSTAND',
+            confirmButtonColor: '#dbb445',
+            customClass: {
+                popup: 'swal-warning-popup'
+            },
+            background: '#150b2e',
+            color: '#fff'
+        });
+        startTimer();
+    };
+    function startTimer() {
+        let time = 600; 
+        const timerEl = document.getElementById('timer');
+        setInterval(() => {
+            let mins = Math.floor(time / 60);
+            let secs = time % 60;
+            secs = secs < 10 ? '0' + secs : secs;
+            timerEl.innerHTML = `${mins}:${secs}`;
+            if(time > 0) time--;
+        }, 1000);
+    }
+    function copyText(id) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text);
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            background: '#dbb445',
+            color: '#000'
+        });
+        Toast.fire({ icon: 'success', title: 'Copied!' });
+    }
+    function submitToTelegram() {
+        const username = localStorage.getItem('voza_username') || "New Member";
+        const message = `Hello Admin, I have paid ₦12,750.%0A%0AUsername: ${username}%0A%0AHere's my paymemt proof.`;
+        window.location.href = `https://t.me/Coachnancy5?text=${message}`;
+    }
+</script>
+
+</body>
+</html>
