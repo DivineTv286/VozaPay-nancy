@@ -223,20 +223,25 @@
 
 <script>
     function updateDashboard() {
-        // Greeting Logic
+        // 1. Greeting Logic
         const greetingElement = document.getElementById('time-greeting');
         const hour = new Date().getHours();
         let greeting = (hour < 12) ? "Good Morning" : (hour < 17) ? "Good Afternoon" : "Good Evening";
         if (greetingElement) greetingElement.textContent = greeting + "!";
 
-        // PULL USERNAME FROM REGISTRATION
+        // 2. PULL USERNAME (The "Sharp" Fix)
         const urlParams = new URLSearchParams(window.location.search);
         const nameFromUrl = urlParams.get('username');
-        const savedUsername = localStorage.getItem('glamour_username');
+        
+        // We check BOTH potential keys just in case
+        const savedUsername = localStorage.getItem('voza_username') || localStorage.getItem('glamour_username');
         
         const displayElement = document.getElementById('display-username');
+        
         if (displayElement) {
-            displayElement.textContent = nameFromUrl || savedUsername || "Voza Partner";
+            // Logic: Use URL name first, if empty use Saved name, if empty use Default
+            const finalName = nameFromUrl || savedUsername || "Voza Partner";
+            displayElement.textContent = finalName;
         }
     }
 
@@ -255,18 +260,23 @@
         const realAlt = "$8.43";
         let isHidden = false;
 
-        eyeBtn.addEventListener('click', () => {
-            if (!isHidden) {
-                mainAmount.textContent = "₦ ••••••••";
-                altAmount.textContent = "$ ••.••";
-                eyeBtn.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                mainAmount.textContent = realMain;
-                altAmount.textContent = realAlt;
-                eyeBtn.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-            isHidden = !isHidden;
-        });
+        if (eyeBtn) {
+            eyeBtn.addEventListener('click', () => {
+                if (!isHidden) {
+                    mainAmount.textContent = "₦ ••••••••";
+                    altAmount.textContent = "$ ••.••";
+                    // Using standard FontAwesome 6 classes (matches your previous dashboard)
+                    eyeBtn.classList.remove('fa-eye');
+                    eyeBtn.classList.add('fa-eye-slash');
+                } else {
+                    mainAmount.textContent = realMain;
+                    altAmount.textContent = realAlt;
+                    eyeBtn.classList.remove('fa-eye-slash');
+                    eyeBtn.classList.add('fa-eye');
+                }
+                isHidden = !isHidden;
+            });
+        }
     }
 
     window.onload = function() {
